@@ -27,6 +27,17 @@ enum CalcButton: String {
     case clear = "AC"
     case negative = "±"
     case percent = "%"
+    
+    //To color buttons appropriately
+    var buttonColor: Color {
+        switch self {
+        case .add, .subtract, .multiply, .divide, .equal:
+            return .orange
+        case .clear, .negative, .percent:
+            return Color(.lightGray)
+        default:
+            return Color(.darkGray)        }
+    }
 }
 
 struct ContentView: View {
@@ -67,7 +78,7 @@ struct ContentView: View {
                                         width: self.buttonWidth(item: item),
                                         height: self.buttonHeight()
                                     )
-                                    .background(Color.orange)
+                                    .background(item.buttonColor)
                                     .foregroundColor(.white)
                                     .cornerRadius(self.buttonWidth(item: item)/2)
                             })
