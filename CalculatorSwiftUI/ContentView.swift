@@ -21,7 +21,7 @@ enum CalcButton: String {
     case equal = "="
     case add = "+"
     case subtract = "-"
-    case multiply = "X"
+    case multiply = "x"
     case divide = "÷"
     case decimal = "."
     case clear = "AC"
@@ -73,9 +73,10 @@ struct ContentView: View {
                     HStack(spacing: 12) {
                         ForEach(row, id: \.self) { item in
                             Button(action: {
+                                self.didTap(button: item)
                             }, label: {
                                 Text(item.rawValue)
-                                    .font(.system(size: 32))
+                                    .font(.system(size: 38))
                                     .frame(
                                         width: self.buttonWidth(item: item),
                                         height: self.buttonHeight()
@@ -93,7 +94,20 @@ struct ContentView: View {
     }
     
     func didTap(button: CalcButton) {
-        
+        switch button {
+        case .add, .subtract, .multiply, .divide, .equal:
+            self.value = "0"
+        case .decimal, .negative, .percent:
+            break
+        default:
+            let number = button.rawValue
+            if self.value == "0" {
+                value = number
+            }
+            else {
+                self.value = "\(self.value)\(number)"
+            }
+        }
     }
     
     func buttonWidth(item: CalcButton) -> CGFloat {
